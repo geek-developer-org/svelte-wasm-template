@@ -5,6 +5,7 @@ You need to ensure that the following commands can be executed:
 
 ```bash
 cargo --version
+rustup --version
 npm --version
 ```
 
