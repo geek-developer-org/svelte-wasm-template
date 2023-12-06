@@ -17,7 +17,7 @@ rustup target add wasm32-unknown-unknown
 To build, an additional tool called ```wasm-pack``` is needed. If it's not installed, you can install it with the following command:
 
 ```bash
-rustup target add wasm32-unknown-unknown
+cargo install wasm-pack
 ```
 
 You can create a project using the following shell script:
