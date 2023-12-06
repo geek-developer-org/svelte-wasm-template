@@ -31,7 +31,7 @@ if [ $MODE = "bundle" ]; then
 fi
 
 npx npm-check-updates -u
-npm install
+# npm install
 
 mkdir -p src/static/css
 mkdir -p src/static/js
@@ -86,7 +86,7 @@ echo -e 'use wasm_bindgen::prelude::wasm_bindgen;\n'>src/lib.rs
 echo -e '#[cfg(feature = "wee_alloc")]\n#[global_allocator]\nstatic ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;\n'>>src/lib.rs
 echo -e '#[wasm_bindgen]\npub fn message(input: &str) -> String {\n    format!("Hello,{}!!!", input).to_string()\n}'>>src/lib.rs
 
-wasm-pack build --release --target web
+# wasm-pack build --release --target web
 
 cd ../../
 
@@ -113,6 +113,8 @@ echo -e 'html,body{margin:0;padding:0;box-sizing:border-box;}'>src/static/css/gl
 echo "Success!!!"
 echo "Next Step"
 echo "cd $1"
+echo "wasm-pack build src/wasm-module --release --target web"
+echo "npm install"
 echo "npx rollup -c && npx http-server ./public"
 echo "or"
 echo "npm run dev"

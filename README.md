@@ -31,3 +31,15 @@ or
 ```bash
 create-svelte-wasm-project.sh svelte-wasm-bundle bundle
 ```
+
+Example of Execution:
+
+```bash
+cd svelte-wasm-bundle
+npm install
+wasm-pack build src/wasm-module --release --target web
+
+npx rollup -c && npx http-server ./public
+# or
+npm run dev
+```
