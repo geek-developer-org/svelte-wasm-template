@@ -1,11 +1,10 @@
 import { spawn } from 'child_process';
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
-import terser from '@rollup/plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import sveltePreprocess from 'svelte-preprocess';
-import typescript from '@rollup/plugin-typescript';
+import esbuild from 'rollup-plugin-esbuild';
 import css from 'rollup-plugin-css-asset';
 import copy from 'rollup-plugin-copy';
 import clear from 'rollup-plugin-clear';
@@ -44,7 +43,7 @@ export default {
 		assetFileNames: 'css/bundle.css'
 	},
 	plugins: [
-		clear({ targets: ['public'] }),
+		production && clear({ targets: ['public'] }),
 		copy({
 			targets: [
 				{ src: 'src/static/*', dest: 'public' },
@@ -66,16 +65,15 @@ export default {
 			exportConditions: ['svelte']
 		}),
 		commonjs(),
-		typescript({
+		esbuild({
 			sourceMap: !production,
-			inlineSources: !production
+			minify: production
 		}),
 
 		!production && serve(),
 
 		!production && livereload('public'),
 
-		production && terser()
 	],
 	watch: {
 		clearScreen: false

@@ -23,6 +23,11 @@ cd $1
 
 node scripts/setupTypeScript.js
 
+npm uninstall rollup-plugin-css-only --save-dev
+npm uninstall @rollup/plugin-terser --save-dev
+npm uninstall @rollup/plugin-typescript --save-dev
+
+npm install esbuild rollup-plugin-esbuild --save-dev
 npm install rollup-plugin-css-asset --save-dev
 npm install rollup-plugin-copy --save-dev
 npm install rollup-plugin-clear --save-dev
@@ -49,6 +54,10 @@ sed -i '/^$/d' src/static/index.html
 sed -i s/^$'\t'// src/static/index.html
 
 sed -i '/import css from '\''rollup-plugin-css-only'\'';/d' rollup.config.js
+sed -i '/import terser from '\''@rollup\/plugin-terser'\'';/d' rollup.config.js
+sed -i '/import typescript from '\''@rollup\/plugin-typescript'\'';/d' rollup.config.js
+
+sed -i '0,/^$/ s/^$/import esbuild from '\''rollup-plugin-esbuild'\'';\n/' rollup.config.js
 sed -i '0,/^$/ s/^$/import css from '\''rollup-plugin-css-asset'\'';\n/' rollup.config.js
 sed -i '0,/^$/ s/^$/import copy from '\''rollup-plugin-copy'\'';\n/' rollup.config.js
 sed -i  '0,/^$/ s/^$/import clear from '\''rollup-plugin-clear'\'';\n/' rollup.config.js
@@ -62,10 +71,14 @@ if [ $MODE = "bundle" ]; then
 else
   sed -i '0,/plugins: \[/ s/plugins: \[/plugins: \[\n\t\tcopy({\n\t\t\ttargets: \[\n\t\t\t\t{ src: '\''src\/static\/\*'\'', dest: '\''public'\'' },\n\t\t\t\t{ src: '\''src\/wasm-module\/pkg\/*.wasm'\'', dest: '\''public\/wasm'\'' }\n\t\t\t\]\n\t\t}),/' rollup.config.js
 fi
-sed -i '0,/plugins: \[/ s/plugins: \[/plugins: \[\n\t\tclear({ targets: ['\''public'\''] }),/' rollup.config.js
+sed -i '0,/plugins: \[/ s/plugins: \[/plugins: \[\n\t\tproduction \&\& clear({ targets: ['\''public'\''] }),/' rollup.config.js
 sed -i '0,/file: '\''public\/build\/bundle.js'\''/ s/file: '\''public\/build\/bundle.js'\''/dir: '\''public'\'',\n\t\tentryFileNames: '\''js\/bundle.js'\'',\n\t\tassetFileNames: '\''css\/bundle.css'\''/' rollup.config.js
 sed -i '0,/svelte({/ s/svelte({/svelte({\n\t\t\temitCss: true,/' rollup.config.js
 sed -i '0,/css({ output: '\''bundle.css'\'' }),/ s/css({ output: '\''bundle.css'\'' }),/css({ name: '\''bundle'\'' }),/' rollup.config.js
+sed -i '0,/typescript({/ s/typescript({/esbuild({/' rollup.config.js
+sed -i '0,/inlineSources: !/ s/inlineSources: !/minify: /' rollup.config.js
+sed -i '/production && terser()/d' rollup.config.js
+
 sed -i '/^[\s\t]*\/\//d' rollup.config.js
 # sed -i '/^$/d' rollup.config.js
 
