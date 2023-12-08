@@ -67,7 +67,7 @@ fi
 sed -i '0,/sourcemap: true,/ s/sourcemap: true,/sourcemap: !production,/' rollup.config.js
 if [ $MODE = "bundle" ]; then
   sed -i '0,/plugins: \[/ s/plugins: \[/plugins: \[\n\t\tcopy({\n\t\t\ttargets: \[\n\t\t\t\t{ src: '\''src\/static\/\*'\'', dest: '\''public'\'' }\n\t\t\t\]\n\t\t}),/' rollup.config.js
-  sed -i '0,/plugins: \[/ s/plugins: \[/plugins: \[\n\t\twasm(),/' rollup.config.js
+  sed -i '0,/plugins: \[/ s/plugins: \[/plugins: \[\n\t\twasm({ maxFileSize: 512000 }),/' rollup.config.js
 else
   sed -i '0,/plugins: \[/ s/plugins: \[/plugins: \[\n\t\tcopy({\n\t\t\ttargets: \[\n\t\t\t\t{ src: '\''src\/static\/\*'\'', dest: '\''public'\'' },\n\t\t\t\t{ src: '\''src\/wasm-module\/pkg\/*.wasm'\'', dest: '\''public\/wasm'\'' }\n\t\t\t\]\n\t\t}),/' rollup.config.js
 fi
