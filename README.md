@@ -9,7 +9,7 @@ rustup --version
 npm --version
 ```
 
-To compile WASM, the architecture ```wasm32-unknown-emscripten``` is required. If it's not installed, you can do so with the following command:
+To compile WASM, the architecture ```wasm32-unknown-unknown``` is required. If it's not installed, you can do so with the following command:
 
 ```bash
 rustup target add wasm32-unknown-unknown
